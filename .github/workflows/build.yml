@@ -4,7 +4,7 @@ on:
     branches:
       - lunar
   schedule:
-    - cron: '0 2 * * 0' # Weekly on Sundays at 02:00
+    - cron: '0 3 * * 0' # Weekly on Sundays at 03:00
 
 jobs:
   build:

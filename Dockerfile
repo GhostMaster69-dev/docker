@@ -78,3 +78,5 @@ RUN git clone https://github.com/newren/git-filter-repo ~/git-filter-repo && \
 RUN echo '. .nvm/nvm.sh' >> .bashrc
 RUN echo 'sudo chown -R 55555:55555 "/codespace/.npm"' >> .bashrc
 RUN echo 'sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y' >> .bashrc
+RUN git clone https://gitlab.com/GhostMaster69-dev/cosmic-clang --depth=1 ~/clang
+ENV PATH=~/clang/bin:$PATH
