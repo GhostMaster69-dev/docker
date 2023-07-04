@@ -34,14 +34,14 @@ RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor
     apt install -y docker-ce docker-ce-cli containerd.io && \
     curl -o /usr/bin/slirp4netns -fsSL https://github.com/rootless-containers/slirp4netns/releases/download/v1.1.12/slirp4netns-$(uname -m) && \
     chmod +x /usr/bin/slirp4netns && \
-    curl -o /usr/local/bin/docker-compose -fsSL https://github.com/docker/compose/releases/download/v2.4.1/docker-compose-linux-$(uname -m) && \
+    curl -o /usr/local/bin/docker-compose -fsSL https://github.com/docker/compose/releases/download/v2.19.1/docker-compose-linux-$(uname -m) && \
     chmod +x /usr/local/bin/docker-compose && \
     mkdir -p /usr/local/lib/docker/cli-plugins && \
     ln -s /usr/local/bin/docker-compose /usr/local/lib/docker/cli-plugins/docker-compose && \
     curl -o /tmp/dive.deb -fsSL https://github.com/wagoodman/dive/releases/download/v0.10.0/dive_0.10.0_linux_amd64.deb && \
     apt install /tmp/dive.deb && \
     rm -rf /tmp/dive.deb /var/lib/apt/lists/*
-ENV NODE_VERSION=20.1.0
+ENV NODE_VERSION=20.3.1
 ENV PNPM_HOME=/codespace/.pnpm
 ENV PATH=/codespace/.nvm/versions/node/${NODE_VERSION}/bin:/codespace/.yarn/bin:/codespace/.pnpm:$PATH
 RUN curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | PROFILE=/dev/null bash \
@@ -59,13 +59,13 @@ RUN sudo echo "Running 'sudo' for Codespace shell: success" && \
 ENV PATH=/codespace/.pyenv/bin:/codespace/.pyenv/shims:$PATH
 ENV PIPENV_VENV_IN_PROJECT=true
 ENV PYENV_ROOT=/codespace/.pyenv
-ENV PYTHON_VERSION=3.11.3
+ENV PYTHON_VERSION=3.11.4
 RUN curl -fsSL https://pyenv.run | bash && \
     pyenv update && \
     pyenv install ${PYTHON_VERSION} && \
     pyenv global ${PYTHON_VERSION} && \
     python3 -m pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir --upgrade setuptools wheel virtualenv pipenv pylint rope flake8 mypy autopep8 pep8 pylama mccabe pyaf pypf pydocstyle bandit notebook twine && \
+    pip install --no-cache-dir --upgrade setuptools wheel virtualenv pipenv pylint rope flake8 mypy autopep8 pep8 pylama mccabe pyaf pypf pydocstyle bandit notebook twine pwclient && \
     curl -sSL https://install.python-poetry.org | python
 RUN sudo rm -rf /tmp/*
 RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo -o /codespace/.local/bin/repo && \
@@ -78,5 +78,5 @@ RUN git clone https://github.com/newren/git-filter-repo ~/git-filter-repo && \
 RUN echo '. .nvm/nvm.sh' >> .bashrc
 RUN echo 'sudo chown -R 55555:55555 "/codespace/.npm"' >> .bashrc
 RUN echo 'sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y' >> .bashrc
-RUN git clone https://gitlab.com/GhostMaster69-dev/cosmic-clang --depth=1 ~/clang
-ENV PATH=~/clang/bin:$PATH
+RUN git clone https://gitlab.com/GhostMaster69-dev/cosmic-clang.git --no-tags --single-branch --depth=1 -b master /codespace/clang -j$(nproc)
+ENV PATH=/codespace/clang/bin:$PATH

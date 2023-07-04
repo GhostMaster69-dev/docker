@@ -7,3 +7,14 @@
         required = true
 [color]
         ui = true
+[http]
+	postBuffer = 1024M
+	maxRequestBuffer = 512M
+[ssh]
+	postBuffer = 1024M
+	maxRequestBuffer = 512M
+[core]
+	compression = 9
+[pack]
+	windowMemory = 100m
+	packSizeLimit = 100m
